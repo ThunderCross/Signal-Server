@@ -22,6 +22,7 @@
 
         <project.build.sourceEncoding>UTF-8</project.build.sourceEncoding>
         <TextSecureServer.version>3.21</TextSecureServer.version>
+        <skipTests>true</skipTests>
     </properties>
 
     <parent>
