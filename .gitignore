@@ -17,7 +17,7 @@ service/config/testing.yml
 put.sh
 
 ### vs code ###
-/.vscode
+# /.vscode
 .settings
 .classpath
 .factorypath

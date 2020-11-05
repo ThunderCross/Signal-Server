@@ -12,12 +12,15 @@ import com.turo.pushy.apns.DeliveryPriority;
 import com.turo.pushy.apns.PushNotificationResponse;
 import com.turo.pushy.apns.metrics.dropwizard.DropwizardApnsClientMetricsListener;
 import com.turo.pushy.apns.util.SimpleApnsPushNotification;
+
+import org.apache.commons.lang3.StringUtils;
 import org.bouncycastle.openssl.PEMReader;
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
 import org.whispersystems.textsecuregcm.util.Constants;
 
 import java.io.ByteArrayInputStream;
+import java.io.FileInputStream;
 import java.io.IOException;
 import java.io.InputStreamReader;
 import java.security.KeyPair;
@@ -77,8 +80,13 @@ public class RetryingApnsClient {
   }
 
   private static PrivateKey initializePrivateKey(String pemKey) throws IOException {
-    PEMReader reader = new PEMReader(new InputStreamReader(new ByteArrayInputStream(pemKey.getBytes())));
-    return ((KeyPair) reader.readObject()).getPrivate();
+    if (StringUtils.contains(pemKey, "-----")) {
+      PEMReader reader = new PEMReader(new InputStreamReader(new ByteArrayInputStream(pemKey.getBytes())));
+      return ((KeyPair) reader.readObject()).getPrivate();
+    } else{
+      PEMReader reader = new PEMReader(new InputStreamReader(new FileInputStream(pemKey)));
+      return ((KeyPair) reader.readObject()).getPrivate();
+    }
   }
 
   private static final class ResponseHandler implements GenericFutureListener<io.netty.util.concurrent.Future<PushNotificationResponse<SimpleApnsPushNotification>>> {

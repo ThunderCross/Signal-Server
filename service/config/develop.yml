@@ -1,91 +1,179 @@
-twilio: # Twilio gateway configuration
-  accountId: 
-  accountToken: 
-  numbers: # Numbers allocated in Twilio
-    - # First number
-    - # Second number
-    - # Third number
-    - # ...
-    - # Nth number
-  messagingServicesId: 
-  localDomain: # Domain Twilio can connect back to for calls. Should be domain of your service.
+twilio:
+  accountId: AC0bfca3da39e9d00b8a3e03991af00000
+  accountToken: e3511f257424cea8dadfddcd42800000
+  localDomain:  signal.domain.com
+  numbers:
+    - "+12565769630" # Change this to your number from Twilio
+
+backupService:
+  userAuthenticationTokenSharedSecret: bd5ee839bfa83dc1f60af05d7db00000 # Generate it with `head -c 16 /dev/urandom | hexdump -ve '1/1 "%.2x"'`
+
+storageService:
+  userAuthenticationTokenSharedSecret: cffe9b783677f8ee3dfb485eef000000 # Generate it with `head -c 16 /dev/urandom | hexdump -ve '1/1 "%.2x"'`
 
 push:
-  queueSize: # Size of push pending queue
+  queueSize: 200
 
-# redphone:
-  # authKey: # Deprecated
-
-turn: # TURN server configuration
-  secret: # TURN server secret
+turn: # Coturn server configuration
+  secret: secret # You will need the same config with the secret in turnserver.conf
   uris:
-    - stun:yourdomain:80
-    - stun:yourdomain.com:443
-    - turn:yourdomain:443?transport=udp
-    - turn:etc.com:80?transport=udp
+    - stun:127.0.0.1:3478 # If you change the port in turnserver.conf, change this too
+    - stun:127.0.0.1:5349 # If you change the port in turnserver.conf, change this too
+    - turn:127.0.0.1:5349?transport=udp # If you change the port in turnserver.conf, change this too
+    - turn:127.0.0.1:3478?transport=udp # If you change the port in turnserver.conf, change this too
 
-cache: # Redis server configuration for cache cluster
-  url:
+cache: # redis server for cache cluster
+  url: redis://127.0.0.1:6379/cache # change to your redis server
   replicaUrls:
+    -  redis://127.0.0.1:6379/cacheReplica # change to your redis server
 
 directory:
   redis: # Redis server configuration for directory cluster
-    url:
+    url: redis://127.0.0.1:6379/directory
     replicaUrls:
+      -  redis://127.0.0.1:6379/directoryReplica
   client: # Configuration for interfacing with Contact Discovery Service cluster
-    userAuthenticationTokenSharedSecret: # hex-encoded secret shared with CDS used to generate auth tokens for Signal users
-    userAuthenticationTokenUserIdSecret: # hex-encoded secret shared among Signal-Servers to obscure user phone numbers from CDS
+    userAuthenticationTokenSharedSecret: 33445566  # Generate it with `head -c 16 /dev/urandom | hexdump -ve '1/1 "%.2x"'`
+    userAuthenticationTokenUserIdSecret: 22117788  # Generate it with `head -c 16 /dev/urandom | hexdump -ve '1/1 "%.2x"'`
   sqs:
-    accessKey:      # AWS SQS accessKey
-    accessSecret:   # AWS SQS accessSecret
-    queueUrl:       # AWS SQS queue url
-  server:
-    replicationUrl:                # CDS replication endpoint base url
-    replicationPassword:           # CDS replication endpoint password
-    replicationCaCertificate:      # CDS replication endpoint TLS certificate trust root
-    # reconciliationChunkSize:       # CDS reconciliation chunk size
-    # reconciliationChunkIntervalMs: # CDS reconciliation chunk interval, in milliseconds
+    accessKey:    AKIAQ565H442HJM00000 # Change this to your AWS IAM Access Key
+    accessSecret: cvjr4YVENZW/samH3G33ntliGVKM3oVYJh300000 # Change this to your AWS IAM Secret
+    queueUrl:     https://sqs.eu-west-3.amazonaws.com/044351627060/signal.fifo # Change this to your AWS SQS (FIFO) URL
+  server: # You can change the certificate with your own certificate
+    replicationUrl: http://127.0.0.1:9090 # CDS replication endpoint base url
+    replicationPassword: mypassword # CDS replication endpoint password
+    replicationCaCertificate: |
+      -----BEGIN CERTIFICATE-----
+      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
+      -----END CERTIFICATE-----
+messageCache: # redis server for message store cache
+  redis:
+    url: redis://127.0.0.1:6379/messageCache # change to your redis server
+    replicaUrls:
+      -  redis://127.0.0.1:6379/messageCacheReplica # change to your redis server
 
-# messageCache: # Redis server configuration for message store cache
-  # url:
-  # replicaUrls:
+awsAttachments: # aws s3 configuration
+  accessKey: AKIAQ565H442DES00000 # Change this to your AWS IAM Access Key
+  accessSecret: YmpZCxz2lzgemvmLTa2uC38IG2ADBFztm5l00000 # Change this to your AWS IAM Secret
+  bucket: signal-01-attachments # Change this to your bucket's name
+  region: eu-west-3 # Change this to your bucket's region
 
-messageStore: # Postgresql database configuration for message store
+cdn: # aws cdn configuration
+  accessKey: AKIAQ565H242DES00000 # Change this to your AWS IAM Access Key
+  accessSecret: YmpZCxf2lzgembmLTa2uC38IG2ADBFztm5l00000 # Change this to your AWS IAM Secret
+  bucket: signal-01-attachments # Change this to your bucket's name
+  region: eu-west-3 # Change this to your bucket's region
+
+# openssl genrsa -out private_key_rsa_4096_pkcs1.pem 4096
+# openssl pkcs8 -topk8 -in private_key_rsa_4096_pkcs1.pem -inform pem -out private_key_rsa_4096_pkcs8-exported.pem -outform pem -nocrypt
+#add \n to the certificate: awk 'NF {sub(/\r/, ""); printf "%s\\n",$0;}'  private_key_rsa_4096_pkcs8-exported.pem
+gcpAttachments: # gcp storage configuration
+  domain: domain.com
+  email: dummy@dummy.com
+  maxSizeInBytes: 1000000
+  pathPrefix: /
+  rsaSigningKey: "-----BEGIN PRIVATE KEY-----\n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\nH9zBr3XYenY9ooNckzYS1z/FIUGHAqk=\n-----END PRIVATE KEY-----\n"
+
+pubsub: # redis server for pubsub cache
+  url: redis://127.0.0.1:6379/cache # change to your redis server
+  replicaUrls:
+    -  redis://127.0.0.1:6379/cacheReplica # change to your redis server
+
+remoteConfig: # remote configuration token
+  authorizedTokens:
+    - dummy
+
+zkConfig: # zkgroup config, run using your build jar
+  serverSecret: Oekxh9xpvLtemn0lQt2b+DLa2U+3lV1y+UFkpsMhNADO5dD6jQPrpJPAbrqWVrRu1DsaTTGIyzjAyvR2LMkGDaiOV94T22iZy3UfVDURdqpndCreUuhAwcQ2/hv/L9pmrUb3yMyiFn7kwm4qQLkf39XlQJSkEl3CaoCr5TLWkQvPyMfYjdN07cFD5WZisAsxB++5DEbmSlrM1mFlnDYEBdY2eMlx5vV9bddPOTkyftwbcw6DnPAdt02hiXvwjLQG7MGPRI/f2vhL8iE1Sqr5fm3YxXM8lGL286Pxu3GuYgNrc5ixSaEtIbhW0GsEfOMy6gNWiDoFQBg8LWdm8KCrD0VXs0qPGxV9+N3aThvz9sDCczDnR0IP72kBCcWnzB0Cwf6ETYpxmhPVKhLKfkqIGIGIGJjOxNgY+Gd4iLF+bwKsw0BMHYtmvqfNNgH+jUyDfFDJMpzsqPhB3B+hGY0VAiixG+5xkrjr3VynAkm9Kn/7K5CHDOrlK4QHl9S5lppS1i/dDvWA8qiYFYcIoJDHce+ndIJKbiejhrMPTOB+3D9JGfne1HQ9cl4vwZtV7zI4jhtCsAsFPx1cVyy2ZgBMBIdVZoNut2tSytyHqkBj0L+Y1mttM5gTOWP/bkPFyF8K6K42iaKsCSr5Knt3/N43BjZNNLuxmQ22roBndTFc812t3o+K/eBcQOxIeycfBX6US6jKgxiYh3j6VSTFofO0DZ728a+cHb/sxtFMXIZAnARp2uKbBct/vrgLj+R23ncLu+cuXM5RumxVQdAM7Cmj47TVYdc0Bc1ggLCqmDxejwD17IT8bCMsmEOSVckX+14kZzqQFAlKQzw9r9ZQ7m5RANY8N0Arbb45gbFKrKIxiZpCSxGEZoFGSfZFycACck0E5yIjYj9xx3E5Xe57aaz/Cti0rGS9coF8Z0cX8LFUHQ00/4PaCMaFT3I7on9IIThmV+yaNAcwfHinTtCG9sukBXbRmLSft9fP9VOXoSmxWVyyOqk0lAbfwv1rqOx0UJEJ3t/W0RcKIBawp9XDXZ7WKsO1yp4OyymzkltrtTio9z7Wcc3JNjNKoeYT1vdVzGNqHcRK+JnLZkUsRpzUf/PdUxGJyZHEwRSUsq2hcNGlle93FMUYXj23An1xpnDLPNwPLoEMoWhmGyZwY4Nk9UhUh9u1Jfe4wlN2H2wGBJ/sSnA
+  serverPublic: KLEb7nGSuOvdXKcCSb0qf/srkIcM6uUrhAeX1LmWmlLWL90O9YDyqJgVhwigkMdx76d0gkpuJ6OGsw9M4H7cP97f1tEXCiAWsKfVw12e1irDtcqeDssps5Jba7U4qPc+1nHNyTYzSqHmE9b3Vcxjah3ESviZy2ZFLEac1H/z3VMugQyhaGYbJnBjg2T1SFSH27Ul97jCU3YfbAYEn+xKcA
+  enabled: false
+
+accountsDatabase: # database for account
   driverClass: org.postgresql.Driver
-  user:
-  password:
-  url:
+  user:        postgres
+  password:    postgres
+  url:         jdbc:postgresql://127.0.0.1:5431/accounts_db
 
-awsAttachments: # AWS S3 configuration
-  accessKey:
-  accessSecret:
-  bucket:
-  region:
+messageStore: # database for message
+  driverClass: org.postgresql.Driver
+  user:        postgres
+  password:    postgres
+  url:         jdbc:postgresql://127.0.0.1:5432/message_db
 
-gcpAttachments: # GCP Storage configuration
-  domain:
-  email:
-  maxSizeInBytes:
-  pathPrefix:
-  rsaSigningKey:
+abuseDatabase: # database for abuse
+  driverClass: org.postgresql.Driver
+  user:        postgres
+  password:    postgres
+  url:         jdbc:postgresql://127.0.0.1:5433/abuse_db
 
-# profiles: # AWS S3 configuration
-  # accessKey:
-  # accessSecret:
-  # bucket:
-  # region:
+gcm: # firebase messaging
+  senderId: 000000000 # your sender id
+  apiKey: xxxxxxxxxxx # your api key
 
-# database: # Postgresql database configuration
-#   driverClass: org.postgresql.Driver
-#   user:
-#   password:
-#   url:
+recaptcha: # google recaptcha v3
+  secret: xxxxxxxxxxx # your recaptcha secret
+
+accountDatabaseCrawler: # crawler for account database
+  chunkSize:       1000
+  chunkIntervalMs: 1000000
 
 apn: # Apple Push Notifications configuration
-  bundleId:
-  pushCertificate:
-  pushKey:
+  bundleId: "com.born2go.signal"
+  pushCertificate: "service/config/certNam.pem"
+  pushKey: "service/config/keyNam.pem"
 
-gcm: # GCM Configuration
-  senderId:
-  apiKey:
+unidentifiedDelivery:
+  # Your generated certificate
+  certificate: CiYI4gkSIQVRFd+AAADLxsTKgRYWsDH9k+2tu2lHiy9GVS9b4TolXRJAAwtvHKYe8rJdrdiuLdtnFhQIrEKWGmQwqYbh3p3DSCIRjJXmglMJ4mNvtSlnJzimOMMYVpVZCGVjTUaaffYlhQ== 
+  # Change this to you generated private key
+  privateKey: UHIR/iFY///OraCBwNJP4h8SDC+CWQTAIKE8RZ3AoXY=
+  expiresDays: 365
+
+voiceVerification: # voice otp verification, afaik it use vox service
+  url: https://server.chatapp.net
+  locales:
+    - en
+
+pushScheduler: # redis server for push scheduler
+  url: redis://127.0.0.1:6379/pushScheduler # change to your redis server
+  replicaUrls:
+    - redis://127.0.0.1:6379/pushSchedulerReplica # change to your redis server
+
+server: # server configuration
+  applicationConnectors:
+    - type: http
+      port: 8080 # your signal server will run on this port
+  adminConnectors:
+    - type: http
+      port: 8081 # your signal server admin will run on this port

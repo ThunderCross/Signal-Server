@@ -1,0 +1,56 @@
+{
+    "version": "0.2.0",
+    "configurations": [
+        {
+            "type": "java",
+            "name": "Debug (Launch)-Service",
+            "request": "launch",
+            "mainClass": "org.whispersystems.textsecuregcm.WhisperServerService",
+            "vmArgs": " -Xms512m -Xmx512m ",
+            "args": "server service/config/develop.yml",
+            "projectName": "service"
+        },
+        {
+            "type": "java",
+            "request": "launch",
+            "name": "Generate key",
+            "mainClass": "org.whispersystems.textsecuregcm.WhisperServerService",
+            "vmArgs": " -Xms512m -Xmx512m --version ",
+            "args": " certificate -ca",
+            "projectName": "service"
+            // Public key : BURVEra4bhFwTrNbRuobQxUWB5VXrAyOk2QDJH0vhbNF
+            // Private key: mEySZVI/o3Kwof+9zqYh5xo16Rxfqv2PcvN/ROdcPEQ=
+        },
+        {
+            "type": "java",
+            "request": "launch",
+            "name": "Generate certificate",
+            "mainClass": "org.whispersystems.textsecuregcm.WhisperServerService",
+            "vmArgs": " -Xms512m -Xmx512m  --version ",
+            "args": " certificate --key mEySZVI/o3Kwof+9zqYh5xo16Rxfqv2PcvN/ROdcPEQ= --id 1250",
+            "projectName": "service"
+            // Certificate: CiYI4gkSIQVRFd+AAADLxsTKgRYWsDH9k+2tu2lHiy9GVS9b4TolXRJAAwtvHKYe8rJdrdiuLdtnFhQIrEKWGmQwqYbh3p3DSCIRjJXmglMJ4mNvtSlnJzimOMMYVpVZCGVjTUaaffYlhQ==
+            // Private key: UHIR/iFY///OraCBwNJP4h8SDC+CWQTAIKE8RZ3AoXY=
+        },
+        {
+            "type": "java",
+            "request": "launch",
+            "name": "Migrate database",
+            "mainClass": "org.whispersystems.textsecuregcm.WhisperServerService",
+            "vmArgs": " -Xms512m -Xmx512m  ",
+            // "args": " abusedb migrate service/config/testing.yml",
+            // "args": " accountdb migrate service/config/testing.yml",
+            "args": " messagedb migrate service/config/testing.yml",
+            "projectName": "service"
+        },
+        {
+            "type": "java",
+            "request": "launch",
+            "name": "Generate zkConfig (Need Linux)",
+            "mainClass": "org.whispersystems.textsecuregcm.WhisperServerService",
+            "vmArgs": " -Xms512m -Xmx512m  ",
+            "args": " zkparams ",
+            "projectName": "service"
+        },
+    ]
+}
