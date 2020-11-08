@@ -22,3 +22,7 @@ put.sh
 .classpath
 .factorypath
 .project
+
+# docker-compose
+docker/redis/
+docker/postgres/
