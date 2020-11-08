@@ -38,9 +38,9 @@
             "name": "Migrate database",
             "mainClass": "org.whispersystems.textsecuregcm.WhisperServerService",
             "vmArgs": " -Xms512m -Xmx512m  ",
-            // "args": " abusedb migrate service/config/testing.yml",
-            // "args": " accountdb migrate service/config/testing.yml",
-            "args": " messagedb migrate service/config/testing.yml",
+            "args": " abusedb migrate service/config/develop.yml",
+            // "args": " accountdb migrate service/config/develop.yml",
+            // "args": " messagedb migrate service/config/develop.yml",
             "projectName": "service"
         },
         {
