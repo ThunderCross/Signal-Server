@@ -109,6 +109,14 @@ public class DirectoryController {
   @Path("/auth")
   @Produces(MediaType.APPLICATION_JSON)
   public Response getAuthToken(@Auth Account account) {
+    System.out.println("[AuthToken]" + account.getNumber());
+    try {
+      com.fasterxml.jackson.databind.ObjectMapper mapper = new com.fasterxml.jackson.databind.ObjectMapper();
+      String text = mapper.writeValueAsString(directoryServiceTokenGenerator.generateFor(account.getNumber()));
+      System.out.println(text);
+    } catch (com.fasterxml.jackson.core.JsonProcessingException e) {
+      e.printStackTrace();
+    }
     return Response.ok().entity(directoryServiceTokenGenerator.generateFor(account.getNumber())).build();
   }
 

@@ -36,9 +36,10 @@ directory:
     userAuthenticationTokenSharedSecret: 33445566  # Generate it with `head -c 16 /dev/urandom | hexdump -ve '1/1 "%.2x"'`
     userAuthenticationTokenUserIdSecret: 22117788  # Generate it with `head -c 16 /dev/urandom | hexdump -ve '1/1 "%.2x"'`
   sqs:
-    accessKey:    AKIAQ565H442HJM00000 # Change this to your AWS IAM Access Key
-    accessSecret: cvjr4YVENZW/samH3G33ntliGVKM3oVYJh300000 # Change this to your AWS IAM Secret
-    queueUrl:     https://sqs.eu-west-3.amazonaws.com/044351627060/signal.fifo # Change this to your AWS SQS (FIFO) URL
+    accessKey:    x # Change this to your AWS IAM Access Key
+    accessSecret: x # Change this to your AWS IAM Secret
+    # queueUrl:     https://sqs.eu-west-3.amazonaws.com/044351627060/signal.fifo # Change this to your AWS SQS (FIFO) URL
+    queueUrl:     http://localhost:9324/queue/signal.fifo # Change this to your AWS SQS (FIFO) URL
   server: # You can change the certificate with your own certificate
     replicationUrl: http://127.0.0.1:9090 # CDS replication endpoint base url
     replicationPassword: mypassword # CDS replication endpoint password
@@ -115,8 +116,8 @@ remoteConfig: # remote configuration token
     - dummy
 
 zkConfig: # zkgroup config, run using your build jar
-  serverSecret: Oekxh9xpvLtemn0lQt2b+DLa2U+3lV1y+UFkpsMhNADO5dD6jQPrpJPAbrqWVrRu1DsaTTGIyzjAyvR2LMkGDaiOV94T22iZy3UfVDURdqpndCreUuhAwcQ2/hv/L9pmrUb3yMyiFn7kwm4qQLkf39XlQJSkEl3CaoCr5TLWkQvPyMfYjdN07cFD5WZisAsxB++5DEbmSlrM1mFlnDYEBdY2eMlx5vV9bddPOTkyftwbcw6DnPAdt02hiXvwjLQG7MGPRI/f2vhL8iE1Sqr5fm3YxXM8lGL286Pxu3GuYgNrc5ixSaEtIbhW0GsEfOMy6gNWiDoFQBg8LWdm8KCrD0VXs0qPGxV9+N3aThvz9sDCczDnR0IP72kBCcWnzB0Cwf6ETYpxmhPVKhLKfkqIGIGIGJjOxNgY+Gd4iLF+bwKsw0BMHYtmvqfNNgH+jUyDfFDJMpzsqPhB3B+hGY0VAiixG+5xkrjr3VynAkm9Kn/7K5CHDOrlK4QHl9S5lppS1i/dDvWA8qiYFYcIoJDHce+ndIJKbiejhrMPTOB+3D9JGfne1HQ9cl4vwZtV7zI4jhtCsAsFPx1cVyy2ZgBMBIdVZoNut2tSytyHqkBj0L+Y1mttM5gTOWP/bkPFyF8K6K42iaKsCSr5Knt3/N43BjZNNLuxmQ22roBndTFc812t3o+K/eBcQOxIeycfBX6US6jKgxiYh3j6VSTFofO0DZ728a+cHb/sxtFMXIZAnARp2uKbBct/vrgLj+R23ncLu+cuXM5RumxVQdAM7Cmj47TVYdc0Bc1ggLCqmDxejwD17IT8bCMsmEOSVckX+14kZzqQFAlKQzw9r9ZQ7m5RANY8N0Arbb45gbFKrKIxiZpCSxGEZoFGSfZFycACck0E5yIjYj9xx3E5Xe57aaz/Cti0rGS9coF8Z0cX8LFUHQ00/4PaCMaFT3I7on9IIThmV+yaNAcwfHinTtCG9sukBXbRmLSft9fP9VOXoSmxWVyyOqk0lAbfwv1rqOx0UJEJ3t/W0RcKIBawp9XDXZ7WKsO1yp4OyymzkltrtTio9z7Wcc3JNjNKoeYT1vdVzGNqHcRK+JnLZkUsRpzUf/PdUxGJyZHEwRSUsq2hcNGlle93FMUYXj23An1xpnDLPNwPLoEMoWhmGyZwY4Nk9UhUh9u1Jfe4wlN2H2wGBJ/sSnA
-  serverPublic: KLEb7nGSuOvdXKcCSb0qf/srkIcM6uUrhAeX1LmWmlLWL90O9YDyqJgVhwigkMdx76d0gkpuJ6OGsw9M4H7cP97f1tEXCiAWsKfVw12e1irDtcqeDssps5Jba7U4qPc+1nHNyTYzSqHmE9b3Vcxjah3ESviZy2ZFLEac1H/z3VMugQyhaGYbJnBjg2T1SFSH27Ul97jCU3YfbAYEn+xKcA
+  serverSecret: AGcyKVslw0RExVbOJItIbhnzd97mMeQ/EXrGs43mZYMBnBrmys1Sxbc3oMAZOelEGT4cV3vJz4/VTB+AcnmKmAFgWeT7eDLyaA0BBFvxARAbxuYZThuRCJW2/B17UdrUGwUNdtT9foTw6BKrukz6eSlHE3GCPYVTORVd5nbFHxcCRh2pzB9ZUGRuKqVvTER5vRGwT0W1lLovJXuhqnlz7A/UehwB/UbN9HJ47FFL114uUYpfvd0T6ylOTqlhdcNnDL0MyNsAs+PPUWMGzRbh4hTqZFkTBRiIiwOdyKHm4hYBFhc3aBFH2pzRXTgphBU8PsD4rxJOJd8vUtDco+bNTgHEYC30g28t4bqjWRgpeoQZ2AJW9qGQKAWNW2TOZDImDcLeC/ARzKLCKCLz/goyEnZxh2CLnDQkszgqb80ajbg7SpvF67anbSyjXwCJc9e4kahVUlquX1Y62Wcya0DMWjUez58xTyYEcJ9zBP65BauSpMc19agxVGtt3CJgg+IGAJDKWgffVPccJuY6GTFJ41Bc9QbiPA2uRUXmRl4io5QKigiIhrl7oCAmEEsghU9lWP1IDLAFew09YfZRGbUUrU95bTWUd9ys+g+KnLhBAYg1QpRFRf9ctcnlyMDpnhiJDHpDpiUD1+MR7h6a5okk8b6h9bSIoqquu+D49KJX5KsCqOw9SQHGZ3nvOFRtkyxt0QW+N7Dq2q3HoJvbotMQdQyjYjpzPhHFK1qq3Vtu3D/V3QdRKoFDdUlUA6LQLs5YAivJa+kr0jakxpqnNn/DrlwSQCFehzrTB+0N/X1Z1s4MXZ8tAsWKbWHATKaNFvPPY5GoaTSYbENBCmpgCJ5M0gLiFQrk9PFbUk/yehWqhQ3Gj3LeIJNwHKDjXmWzRvO7AkIqvYn1s2WxQnBzGqMiSSavpZC7waHmPHN08nUpjOkxGbD6JeZMtzOQdJdJD1GJtDv66RpvXwb6yVaFNLw3zggUW/Pc75hFxuATtrZmvhkuiQI6xq3y4uvJgQ7H/V85Mg
+  serverPublic: AMLeC/ARzKLCKCLz/goyEnZxh2CLnDQkszgqb80ajbg7SpvF67anbSyjXwCJc9e4kahVUlquX1Y62Wcya0DMWjXiFQrk9PFbUk/yehWqhQ3Gj3LeIJNwHKDjXmWzRvO7AkIqvYn1s2WxQnBzGqMiSSavpZC7waHmPHN08nUpjOkxFFvz3O+YRcbgE7a2Zr4ZLokCOsat8uLryYEOx/1fOTI
   enabled: false
 
 accountsDatabase: # database for account

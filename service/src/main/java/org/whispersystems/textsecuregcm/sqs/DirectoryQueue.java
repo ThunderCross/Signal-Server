@@ -54,8 +54,8 @@ public class DirectoryQueue {
     final AWSCredentials               credentials         = new BasicAWSCredentials(sqsConfig.getAccessKey(), sqsConfig.getAccessSecret());
     final AWSStaticCredentialsProvider credentialsProvider = new AWSStaticCredentialsProvider(credentials);
 
-    this.queueUrl = sqsConfig.getQueueUrl();
     this.sqs      = AmazonSQSClientBuilder.standard().withRegion(sqsConfig.getRegion()).withCredentials(credentialsProvider).build();
+    this.queueUrl = sqsConfig.getQueueUrl();
   }
 
   public void addRegisteredUser(UUID uuid, String number) {
